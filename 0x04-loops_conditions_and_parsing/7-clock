@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #Bash Script hat displays the time for 12 hours and 59 minutes
 
+hour=0
+
 for (( hour=0; hour<=12; hour++ )); do
     echo "Hour: $hour"
     for (( minute=1; minute<=59; minute++ )); do
