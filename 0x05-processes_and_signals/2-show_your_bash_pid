@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#Bash script that displays lines containing the bash 
+# shellcheck disable=SC2009
+# The line above disables the SC2009 warning for using `ps aux | grep` (not using pgrep)
+# Use ps and grep to find lines containing the word "bash"
+# ps aux: Display all processes
+# grep -E "bash": Filter lines containing the word "bash" using extended regular expression
+# grep -v grep: Exclude the grep process itself from the output
+
+ps aux | grep -E "bash" | grep -v grep
