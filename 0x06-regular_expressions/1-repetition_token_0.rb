@@ -7,7 +7,7 @@
 input = ARGV[0]
 
 # Define the regular expression pattern
-pattern = /hbt{2,}n/
+pattern = /hbt{2,5}n/
 
 # Perform the regular expression matching
 if input.match?(pattern)
