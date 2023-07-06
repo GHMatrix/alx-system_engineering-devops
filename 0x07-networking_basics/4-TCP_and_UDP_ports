@@ -3,4 +3,4 @@
 #Only shows listening sockets
 #shows the PID and name of the program to which each socket belongs
 
-sudo netstat -tulnp | grep LISTEN
+sudo netstat -lp
