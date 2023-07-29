@@ -1,0 +1,77 @@
+
+https://imgur.com/IHdL2mB
+
+
+Three-Server Web Infrastructure:
+We will have three servers to distribute the workload, provide redundancy, and improve fault tolerance.
+
+
+Firewalls:
+Firewalls are added to enhance security by controlling the incoming and outgoing network traffic.
+They act as a barrier between the internet and the servers, allowing only authorized traffic and blocking potential threats.
+
+
+SSL Certificate:
+An SSL certificate is used to enable HTTPS (HTTP Secure) for the website. It encrypts the communication
+ between the user's web browser and the server, ensuring that sensitive data,
+ such as login credentials, remains secure during transmission.
+
+Monitoring Clients:
+Monitoring clients (data collectors) will be deployed on each server to collect performance metrics,
+server health, and other important data. They will send this data to a monitoring service
+ (e.g., Sumo Logic or other monitoring tools).
+
+Why Firewalls:
+Firewalls are essential for securing the infrastructure from unauthorized access, preventing
+ malicious attacks, and controlling network traffic.
+
+Why HTTPS:
+HTTPS ensures that data transmitted between the user's browser and the server is
+ encrypted, protecting sensitive information and maintaining user privacy.
+
+Why Monitoring:
+Monitoring is used to track the health and performance of the infrastructure, identify potential issues,
+and enable proactive troubleshooting and maintenance.
+
+
+How Monitoring Tool Collects Data:
+Monitoring clients (data collectors) on each server will continuously gather
+ data about server metrics (CPU, memory, disk usage, etc.), web server logs, application
+ performance, and network statistics. This data will be sent to the monitoring
+ service for analysis and visualization.
+
+Monitoring Web Server QPS:
+To monitor the web server's QPS (Queries Per Second), the monitoring tool will track the number
+ of incoming requests per second to the server.
+ This data will help identify peak traffic periods and potential performance bottlenecks.
+
+
+Issues with this Infrastructure:
+
+Terminating SSL at the Load Balancer Level:
+
+Terminating SSL at the load balancer level means that SSL decryption and
+encryption occur at the load balancer, not the application server. This can be an issue if sensitive data
+is transmitted internally (e.g., between the load balancer and application servers)
+ without encryption, potentially exposing it to security risks.
+
+
+Only One MySQL Server Capable of Accepting Writes:
+
+Having only one MySQL server capable of accepting writes creates a single
+point of failure. If the MySQL server fails, write operations won't be
+ possible, impacting the website's functionality.
+
+
+Servers with All the Same Components:
+Having all servers with the same components (database, web server, and application server)
+ can lead to resource bottlenecks and lack of specialization. It might be more efficient to
+ separate specialized servers for different roles to optimize performance and resource utilization.
+
+
+To address the issues:
+1. Use SSL passthrough or end-to-end encryption to ensure SSL is terminated at the application server,
+ providing encryption throughout the internal network.
+2. Implement database replication and clustering to ensure data redundancy and high availability.
+3. Consider using specialized server configurations, such as separate database servers,
+ to optimize resource usage and improve performance.
