@@ -1,0 +1,31 @@
+
+https://imgur.com/rrJcTB4
+
+
+Server: 
+We have a single server in this setup that hosts the load balancer, web server,
+ application server, and database. However, for high availability and redundancy,
+ we will configure two HAproxy load balancers as a cluster to distribute incoming traffic.
+
+Load Balancer (HAproxy) Cluster: 
+We use two HAproxy load balancers in a cluster configuration. This ensures that if one load balancer fails,
+the other can continue to distribute the incoming traffic,
+providing fault tolerance and high availability.
+
+Split Components on Separate Servers:
+We have split the components (web server, application server, and database) onto separate
+servers to optimize resource usage and improve performance. This separation also allows us
+to scale each component independently if needed.
+
+Web Server (Nginx, Your Code Base):
+Nginx serves as the web server and hosts your code base, which includes the website's HTML, CSS, JavaScript, and other static files.
+
+Application Server: 
+The application server is responsible for executing your web application's logic and processing dynamic requests.
+
+Database Server: 
+The database server stores and manages the website's data, handling read and write operations.
+
+By splitting the components onto separate servers and using a load balancer cluster, we ensure better performance,
+high availability, and the ability to scale each component independently based on the website's traffic
+and resource requirements. This design promotes a robust and reliable web infrastructure.
