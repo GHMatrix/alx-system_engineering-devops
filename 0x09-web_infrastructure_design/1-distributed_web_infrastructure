@@ -1,0 +1,60 @@
+
+
+https://imgur.com/QA6bSsb
+
+Three-Server Web Infrastructure:
+1. Two servers will provide redundancy and high availability.
+2. Nginx will serve as the web server, handling incoming HTTP/HTTPS requests and serving static files.
+3. The application server will host the website's code base and execute the web application logic.
+4. HAproxy will work as the load balancer to distribute incoming requests across the two
+application servers, ensuring even load distribution and fault tolerance.
+5. MySQL will be used as the database server to store and manage the website's data.
+
+
+Load Balancer (HAProxy) and Distribution Algorithm:
+1. We use the HAProxy load balancer to distribute incoming requests across the two application servers.
+2. The load balancer can be configured with a round-robin distribution algorithm, where each incoming
+request is sequentially assigned to the next available application server in a cyclic manner.
+3. Round-robin ensures that each server receives an equal share of the incoming traffic, 
+promoting load balancing and efficient resource utilization.
+
+Active-Active vs. Active-Passive Setup:
+1. In this setup, we are using an Active-Active configuration for the application servers,
+where both servers are actively serving requests at all times.
+2. With Active-Active, both servers share the load, providing higher performance and better distribution of incoming traffic.
+3. In contrast, an Active-Passive setup would involve one server actively serving requests (the active node),
+while the other server remains idle (the passive node). The passive node only becomes
+active if the primary node fails (failover). This approach provides redundancy but
+may not utilize resources as efficiently as Active-Active.
+
+Database Primary-Replica (Master-Slave) Cluster:
+1. The database will be set up as a Primary-Replica cluster (also known as Master-Slave replication).
+2. In this setup, the Primary node is the main database server where read and write operations occur. It's the authoritative source of data.
+3. The Replica node(s) are read-only copies of the data from the Primary node. They are used for read-heavy operations to offload the Primary node and improve read performance.
+
+Differences between the Primary and Replica nodes in regard to the application:
+1. The application can perform both read and write operations on the Primary node since it's the primary source of data.
+2. For read operations, the application can use either the Primary or any of the Replica nodes. However, it should
+ avoid performing write operations on the Replica nodes since they are read-only copies.
+
+
+
+Issues with this Infrastructure:
+
+Single Point of Failure (SPOF):
+1. The load balancer is a single point of failure. If the load balancer goes down, incoming traffic won't be
+ distributed, affecting the website's availability.
+2. To address this, we can consider implementing a high-availability setup for the load
+ balancer using redundant load balancers with heartbeat monitoring or using a cloud-based load balancer service.
+
+
+Security Issues:
+1. There is no mention of a firewall in the infrastructure design, which leaves the servers exposed to potential security threats.
+2. HTTPS (SSL/TLS) is not mentioned either, meaning that the communication between users and the web server
+ is not encrypted, posing security risks like data interception and man-in-the-middle attacks.
+
+
+Lack of Monitoring:
+1. There is no monitoring system in place to track server performance, resource usage, or potential issues in real-time.
+2. Implementing a monitoring solution can help identify bottlenecks, performance degradation,
+ and server failures, allowing for proactive management and issue resolution.
