@@ -1,0 +1,57 @@
+
+https://imgur.com/W4KLkkv
+
+Server:
+The server is a physical or virtual machine that hosts the entire web infrastructure.
+It is responsible for receiving and processing requests from users, serving web pages,
+and handling database communication. In this scenario, we have one server serving all the required components.
+
+Domain Name (www.foobar.com):
+A domain name is a human-readable address used to access websites on the internet.
+In this case, "www.foobar.com" is the domain name.
+It serves as a user-friendly alias for the server's IP address (8.8.8.8).
+When a user types "www.foobar.com" in their browser, the DNS (Domain Name System) is used to resolve this domain name to the server's IP address, allowing users to reach the website.
+
+
+DNS Record for www (www.foobar.com):
+The DNS record "www" in "www.foobar.com" is a type of DNS record called a CNAME (Canonical Name) record.
+It points the "www" subdomain to the root domain, which is "foobar.com" in this case.
+This setup ensures that both "www.foobar.com" and "foobar.com" point to the same server's IP address (8.8.8.8).
+
+Application Server:
+The application server hosts the application code base. It is responsible for processing dynamic requests,
+generating content based on user input or other data sources, and returning the result
+to the web server. In this case, the application server is responsible for
+handling the logic and generating web pages using the code base.
+
+Database (MySQL):
+The database stores and manages the website's data, such as user information, content, configurations, etc.
+In this infrastructure, MySQL is used as the database system to handle data storage and retrieval.
+
+Communication with the User's Computer:
+When a user requests the website by typing "www.foobar.com" in their browser, the following steps occur:
+1. The user's computer sends a DNS query to a DNS resolver to resolve "www.foobar.com" to the server's IP address (8.8.8.8).
+2. The DNS resolver returns the server's IP address (8.8.8.8) to the user's computer.
+3.The user's computer sends an HTTP request to the server's IP address (8.8.8.8) using port 80 (the default HTTP port).
+4. he server (Nginx) receives the request and forwards it to the appropriate application server to process the request.
+5. The application server processes the request, interacts with the database if needed, generates a dynamic response, and returns it to Nginx6. Nginx then sends the response back to the user's computer, which displays the website content in their browser.
+
+
+
+Issues with the Infrastructure:
+
+1. Single Point of Failure (SPOF):
+The infrastructure has a single server, making it vulnerable to a single point of failure.
+If the server goes down for any reason, the entire website becomes inaccessible. To mitigate this,
+ a load balancer and multiple servers can be introduced to distribute traffic and create redundancy.
+
+2. Downtime during Maintenance:
+During maintenance, such as deploying new code or restarting the web server (Nginx),
+the website may experience downtime or temporary unavailability.
+To minimize this, a strategy like rolling deployments can be used to update the web
+ server or application server without causing a complete downtime.
+
+3. Limited Scalability:
+With only one server handling all the incoming traffic, the infrastructure may struggle to handle a high volume of users or traffic. Scaling options like adding more servers, implementing load balancing, or using a cloud-based infrastructure can help address this limitation and handle increased traffic efficiently.
+
+To address these issues, it's essential to consider using a load balancer to distribute incoming traffic among multiple servers, employing redundant servers for high availability, and exploring cloud-based solutions to scale resources dynamically based on traffic demands. Additionally, using containerization or serverless architectures can offer more flexibility and scalability.
