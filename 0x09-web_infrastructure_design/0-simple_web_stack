@@ -54,4 +54,7 @@ To minimize this, a strategy like rolling deployments can be used to update the 
 3. Limited Scalability:
 With only one server handling all the incoming traffic, the infrastructure may struggle to handle a high volume of users or traffic. Scaling options like adding more servers, implementing load balancing, or using a cloud-based infrastructure can help address this limitation and handle increased traffic efficiently.
 
-To address these issues, it's essential to consider using a load balancer to distribute incoming traffic among multiple servers, employing redundant servers for high availability, and exploring cloud-based solutions to scale resources dynamically based on traffic demands. Additionally, using containerization or serverless architectures can offer more flexibility and scalability.
+To address these issues, it's essential to consider using a load balancer to distribute incoming
+ traffic among multiple servers, employing redundant servers for high availability,
+ and exploring cloud-based solutions to scale resources dynamically based on traffic demands.
+ Additionally, using containerization or serverless architectures can offer more flexibility and scalability.
