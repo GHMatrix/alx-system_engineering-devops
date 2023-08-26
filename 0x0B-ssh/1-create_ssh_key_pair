@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
 # Generate an RSA key pair with a passphrase
-ssh-keygen -t rsa -b 4096 -N "betty" -f ~/.ssh/school
 
+private_key_file="school"
+
+key_bits=4096
+
+passphrase="betty"
+
+openssl genpkey -algorithm RSA -out "$private_key_file.pem" -aes256 -pass pass:"$passphrase" -pkeyopt rsa_keygen_bits:"$key_bits"
+
+openssl rsa -pubout -in "$private_key_file.pem" -out "$private_key_file.pub.pem"
+
+echo "RSA key pair generated:"
+echo "Private key: $private_key_file.pem"
+echo "Public key: $private_key_file.pub.pem"
