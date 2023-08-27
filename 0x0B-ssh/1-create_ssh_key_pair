@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 # Generate an RSA key pair with a passphrase
 
-private_key_file="school"
-
-key_bits=4096
-
+erver_name="228879-web-01"
+username="ubuntu"
+ip="54.166.128.19"
+private_key_name="school"
+key_bits="4096"
 passphrase="betty"
 
-openssl genpkey -algorithm RSA -out "$private_key_file.pem" -aes256 -pass pass:"$passphrase" -pkeyopt rsa_keygen_bits:"$key_bits"
+# Generate the RSA key pair
+ssh-keygen -b $key_bits -t rsa -f "$private_key_name" -C "$username@$server_name" -N "$passphrase"
 
-openssl rsa -pubout -in "$private_key_file.pem" -out "$private_key_file.pub.pem"
+# Move the generated files to the appropriate location
+mv "$private_key_name" "$private_key_name.pem"
+mv "$private_key_name.pub" "$private_key_name.pem.pub"
 
-echo "RSA key pair generated:"
-echo "Private key: $private_key_file.pem"
-echo "Public key: $private_key_file.pub.pem"
+# Display a message with connection information
+echo "RSA key pair generated for $username@$server_name ($ip) with passphrase 'betty'"
+echo "Private key saved as: $private_key_name.pem"
+echo "Public key saved as: $private_key_name.pem.pub"
