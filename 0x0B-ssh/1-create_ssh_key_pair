@@ -8,14 +8,4 @@ private_key_name="school"
 key_bits="4096"
 passphrase="betty"
 
-# Generate the RSA key pair
-ssh-keygen -b $key_bits -t rsa -f "$private_key_name" -C "$username@$server_name" -N "$passphrase"
-
-# Move the generated files to the appropriate location
-mv "$private_key_name" "$private_key_name.pem"
-mv "$private_key_name.pub" "$private_key_name.pem.pub"
-
-# Display a message with connection information
-echo "RSA key pair generated for $username@$server_name ($ip) with passphrase 'betty'"
-echo "Private key saved as: $private_key_name.pem"
-echo "Public key saved as: $private_key_name.pem.pub"
+ssh-keygen -t rsa -b 4096 -f "school" -N "betty"
