@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Installing nginx web server 
+
+# Update package list and install Nginx
+sudo apt update
+sudo apt install -y nginx
+
+# Create a basic Nginx configuration that listens on port 80
+cat << EOF | sudo tee /etc/nginx/sites-available/default > /dev/null
+server {
+    listen 80;
+    server_name _;
+    location / {
+        echo "Hello World!";
+    }
+}
+EOF
+
+# Test Nginx configuration
+sudo nginx -t
+
+# Restart Nginx using its binary (not systemctl)
+sudo /usr/sbin/nginx -s reload
+
+# Inform user that the setup is complete
+echo "Nginx has been installed and configured."
