@@ -5,22 +5,28 @@
 sudo apt update
 sudo apt install -y nginx
 
-# Create a basic Nginx configuration that listens on port 80
-cat << EOF | sudo tee /etc/nginx/sites-available/default > /dev/null
-server {
-    listen 80;
-    server_name _;
-    location / {
-        echo "Hello World!";
-    }
-}
-EOF
+if [[ ! $(pgrep nginx) ]]; then
+    service nginx start
+fi
 
-# Test Nginx configuration
-sudo nginx -t
+# Get the first root directory of nginx from the configuration file
+root_dir=$(grep "root" /etc/nginx/sites-available/default | cut -d " " -f 2 | tr -d ";" | head -1)
 
-# Restart Nginx using its binary (not systemctl)
-sudo /usr/sbin/nginx -s reload
+# Create the directory if it doesn't exist
+if [[ ! -d $root_dir ]]; then
+    sudo mkdir -p "$root_dir"
+fi
 
-# Inform user that the setup is complete
-echo "Nginx has been installed and configured."
+# Write `Hello World!` to the index.html file
+echo "Hello World!" > "$root_dir"/index.html
+
+# Check if Nginx is running and serving the expected content
+response=$(curl -s http://localhost)
+if [[ $response == "Hello World!" ]]; then
+  echo "Nginx installation and configuration successful!"
+else
+  echo "Nginx installation or configuration failed."
+  exit 1
+fi
+
+exit 0
