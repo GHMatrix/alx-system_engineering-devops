@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Configuring Nginx erver to have custome 404 page
+
+# Install Nginx
+sudo apt update
+sudo apt install nginx -y
+
+# Create the custom 404 page content
+echo "<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Not Found</title>
+</head>
+<body>
+    <h1>404 Not Found</h1>
+    <p>Ceci n'est pas une page</p>
+</body>
+</html>" | sudo tee /var/www/html/404.html
+
+# Create the Nginx configuration file
+echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm;
+    server_name _;
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}" | sudo tee /etc/nginx/sites-available/4-not_found_page_404
+
+# Create a symbolic link to enable the site
+sudo ln -s /etc/nginx/sites-available/4-not_found_page_404 /etc/nginx/sites-enabled/
+
+# Remove the default symbolic link if needed
+sudo rm /etc/nginx/sites-enabled/default
+
+# Test the Nginx configuration
+sudo nginx -t
+
+# Reload Nginx to apply the new configuration
+sudo systemctl reload nginx
+
+echo "Nginx custom 404 setup completed."
