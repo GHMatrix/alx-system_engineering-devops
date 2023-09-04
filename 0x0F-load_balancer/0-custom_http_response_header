@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Bash script to configure Nginx on server so that HTTP response contains
+# custom header
+# Update the system
+sudo apt update
+sudo apt upgrade -y
+
+# Install Nginx
+sudo apt install nginx -y
+
+# Edit the Nginx default site configuration
+sudo sed -i '/server_name _;/a \ \n \ \ \ \ # Add the custom header\n \ \ \ \ add_header X-Served-By $hostname;\n' /etc/nginx/sites-available/default
+
+# Test the Nginx configuration
+sudo nginx -t
+
+# Reload Nginx to apply changes
+sudo systemctl reload nginx
