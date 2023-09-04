@@ -5,7 +5,7 @@ sudo apt-get update
 sudo apt-get install nginx -y
 
 # Define the custom Nginx configuration file
-custom_config_file="/etc/nginx/sites-available/default"
+custom_config_file="/etc/nginx/conf.d/custom_headers.conf"
 
 # Get the hostname of the server
 server_hostname=$(hostname)
