@@ -1,0 +1,16 @@
+#!/usr/bin/env bash 
+# Bash script to automate Nginx listnening on port 80.
+# Update Nginx configuration to listen on port 80
+echo "Configuring Nginx to listen on port 80..."
+sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+
+# Restart Nginx to apply the changes
+echo "Restarting Nginx..."
+service nginx restart
+
+# Verify Nginx is listening on port 80
+if [[ $(netstat -tuln | grep ':80') ]]; then
+  echo "Nginx is now listening on port 80."
+else
+  echo "Failed to configure Nginx to listen on port 80."
+fi
