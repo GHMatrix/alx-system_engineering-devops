@@ -11,3 +11,8 @@ else
     echo "Nginx is not running or not listening on port 80."
 fi
 
+# Force-create the symlink using ln -sf
+docker exec nginx-fixed-container ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Reload Nginx to apply the symlink changes
+docker exec nginx-fixed-container systemctl reload nginx
