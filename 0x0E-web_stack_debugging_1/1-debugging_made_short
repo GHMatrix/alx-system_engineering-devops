@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 # Simplified bash script setting Nginx to listen on port 80.
-sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
-nginx -s reload
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+if systemctl is-active nginx | grep -q "inactive"; then
+    systemctl start nginx
+fi
