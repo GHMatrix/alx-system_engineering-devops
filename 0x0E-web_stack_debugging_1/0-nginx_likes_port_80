@@ -1,6 +1,5 @@
 #!/usr/bin/env bash 
 # Bash script to automate Nginx listnening on port 80.
-
 # Create a new container from the fixed image
 docker run -d --name nginx-fixed-container nginx-fixed
 
