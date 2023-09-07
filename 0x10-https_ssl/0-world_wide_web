@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #Bash script that will display information about subdomains.
-
 # Function to query DNS records and display information
 query_dns() {
     local domain="$1"
@@ -13,13 +12,10 @@ query_dns() {
     fi
 
     for sub in "${subdomains[@]}"; do
-        dns_result=$(nslookup -query=A "$sub.$domain" | grep "Address:" | awk '{ print $2 }')
-        if [ -z "$dns_result" ]; then
-            echo "The subdomain $sub is not found."
-        else
-            record_type="A record"
-            echo "The subdomain $sub is a $record_type and points to $dns_result"
-        fi
+        record_type=$(dig +short -t A "$sub.$domain" | awk '{ if (NF == 0) { print "No A record found" } else { print "A record" } }')
+        destination=$(dig +short -t A "$sub.$domain")
+
+        echo "The subdomain $sub is a $record_type and points to $destination"
     done
 }
 
