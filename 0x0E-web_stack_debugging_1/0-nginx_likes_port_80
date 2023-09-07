@@ -1,5 +1,6 @@
 #!/usr/bin/env bash 
 # Bash script to automate Nginx listnening on port 80.
+
 # Create a new container from the fixed image
 docker run -d --name nginx-fixed-container nginx-fixed
 
@@ -9,6 +10,7 @@ if docker exec nginx-fixed-container systemctl is-active nginx && \
     echo "Nginx is running and listening on port 80."
 else
     echo "Nginx is not running or not listening on port 80."
+    exit 1
 fi
 
 # Force-create the symlink using ln -sf
@@ -16,3 +18,11 @@ docker exec nginx-fixed-container ln -sf /etc/nginx/sites-available/default /etc
 
 # Reload Nginx to apply the symlink changes
 docker exec nginx-fixed-container systemctl reload nginx
+
+# Check if Nginx is still running and listening on port 80 after making the changes
+if docker exec nginx-fixed-container systemctl is-active nginx && \
+   docker exec nginx-fixed-container netstat -tuln | grep ':80'; then
+    echo "Nginx is running and listening on port 80 after making the changes."
+else
+    echo "Nginx is not running or not listening on port 80 after making the changes."
+fi
