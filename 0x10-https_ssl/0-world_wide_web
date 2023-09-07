@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #Bash script that will display information about subdomains.
+
 # Function to query DNS records and display information
 query_dns() {
     local domain="$1"
