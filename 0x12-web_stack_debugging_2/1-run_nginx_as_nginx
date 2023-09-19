@@ -1,50 +1,26 @@
 #!/usr/bin/env bash
-# This script configures Nginx to run as the nginx user and listen on port 8080
+# This script configures Nginx to run as the nginx user and listen on port 8080.
 
-# Install Nginx if it's not already installed
-if ! command -v nginx &>/dev/null; then
-    apt-get update
-    apt-get install -y nginx
-fi
+# Exit on any error
+set -e
 
-# Modify Nginx configuration to run as nginx user
-sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
+# Update the Nginx configuration to run as the nginx user
+sed -i 's/user\s*[^;]*;/user nginx;/g' /etc/nginx/nginx.conf
 
-# Create a default Nginx configuration if it doesn't exist
-if [ ! -f /etc/nginx/sites-available/default ]; then
-    cat <<EOF > /etc/nginx/sites-available/default
+# Remove the default Nginx site configuration
+rm -f /etc/nginx/conf.d/default.conf
+
+# Create a new Nginx site configuration that listens on port 8080
+cat <<EOF > /etc/nginx/conf.d/custom.conf
 server {
-    listen 8080 default_server;
+    listen 8080;
     server_name _;
 
     location / {
-        root /var/www/html;
-        index index.html;
+        # Your web server configuration here
     }
 }
 EOF
-fi
 
-# Ensure Nginx is listening on all active IPs on port 8080
-sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
-
-# Reload Nginx to apply the changes
-service nginx reload
-
-# Verify Nginx is running as the nginx user
-ps aux | grep 'nginx: master process' | grep -q 'nginx: master process /usr/sbin/nginx'
-if [ $? -eq 0 ]; then
-    echo "Nginx is running as the nginx user."
-else
-    echo "Failed to configure Nginx to run as the nginx user."
-    exit 1
-fi
-
-# Check if Nginx is listening on port 8080
-nc -z 0 8080
-if [ $? -eq 0 ]; then
-    echo "Nginx is listening on port 8080."
-else
-    echo "Nginx is not listening on port 8080."
-    exit 1
-fi
+# Run Nginx as the nginx user
+nginx -g 'daemon off;'
