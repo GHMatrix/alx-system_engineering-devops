@@ -2,13 +2,7 @@
 # Configure Nginx to run as the nginx user and listen on port 8080
 sed -i 's/user\s*[^;]*;/user nginx;/' /etc/nginx/nginx.conf
 rm -f /etc/nginx/conf.d/default.conf
-cat >/etc/nginx/conf.d/custom.conf <<EOL
-server {
-    listen 8080;
-    server_name _;
-    location / {
-        # Your web server configuration here
-    }
-}
-EOL
+cat >/etc/nginx/conf.d/custom.conf <<EOF
+server { listen 8080; server_name _; location / { # Your web server configuration here } }
+EOF
 nginx -g 'daemon off'
