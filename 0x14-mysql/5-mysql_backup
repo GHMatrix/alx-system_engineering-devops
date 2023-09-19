@@ -2,8 +2,7 @@
 # MySQL Backup Script
 # This script generates a MySQL dump, compresses it into a tar.gz archive,
 # and follows specified requirements.
-
-# Check if the password argument is provided
+# Check for the MySQL password argument
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <MySQL_Password>"
   exit 1
@@ -12,26 +11,25 @@ fi
 # Set the MySQL password
 mysql_password="$1"
 
-# Get the current date in the desired format (day-month-year)
+# Get the current date components
 current_date=$(date +"%d-%m-%Y")
 
-# Create a directory for the backup
-backup_dir="/path/to/backup/directory"
-mkdir -p "$backup_dir"
+# Define the backup file name
+backup_file="backup.sql"
 
-# Perform MySQL dump to backup.sql
-mysqldump -u root -p"$mysql_password" --all-databases > "$backup_dir/backup.sql"
+# Perform MySQL dump with specified options
+mysqldump --all-databases -u root --password="$mysql_password" > "$backup_file"
 
 # Check if the MySQL dump was successful
 if [ $? -eq 0 ]; then
   echo "MySQL dump completed successfully."
 
   # Create a tar.gz archive with the specified format
-  archive_name="$backup_dir/$current_date.tar.gz"
-  tar -czf "$archive_name" -C "$backup_dir" backup.sql
+  archive_name="$current_date.tar.gz"
+  tar -czvf "$archive_name" "$backup_file"
 
   # Remove the original SQL dump file
-  rm "$backup_dir/backup.sql"
+  rm "$backup_file"
 
   echo "Backup completed: $archive_name"
 else
