@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     # Get user's tasks
     user_tasks = requests.get(
-        'https://jsonplaceholder.typicode.com/todos?userId={}'i
+        'https://jsonplaceholder.typicode.com/todos?userId={}'
         .format(employee_id))
     tasks_data = user_tasks.json()
 
