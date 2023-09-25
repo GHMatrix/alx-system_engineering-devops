@@ -4,9 +4,9 @@ Python script that, using a REST API, retrieves and displays
 information about an employee's TODO list progress and exports it to CSV.
 """
 
+import csv
 import requests
 import sys
-import csv
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -18,16 +18,17 @@ if __name__ == "__main__":
     user_info = requests.get(
         'https://jsonplaceholder.typicode.com/users/{}'.format(employee_id))
     user_data = user_info.json()
-    employee_name = user_data.get('username')
+    user_id = user_data.get('id')  # Use 'id' instead of 'username'
+    username = user_data.get('username')  # Use 'username' instead of 'name'
 
     # Get user's tasks
     user_tasks = requests.get(
-        'https://jsonplaceholder.typicode.com/todos?userId={}'
+        'https://jsonplaceholder.typicode.com/todos?userId={}'i
         .format(employee_id))
     tasks_data = user_tasks.json()
 
     # Prepare CSV file name based on USER_ID
-    csv_file_name = '{}.csv'.format(employee_id)
+    csv_file_name = '{}.csv'.format(user_id)
 
     # Create and write to the CSV file
     with open(csv_file_name, mode='w', newline='') as csv_file:
@@ -41,8 +42,8 @@ if __name__ == "__main__":
         # Write task data to CSV
         for task in tasks_data:
             writer.writerow({
-                "USER_ID": employee_id,
-                "USERNAME": employee_name,
+                "USER_ID": user_id,
+                "USERNAME": username,
                 "TASK_COMPLETED_STATUS": str(task["completed"]),
                 "TASK_TITLE": task["title"]
             })
