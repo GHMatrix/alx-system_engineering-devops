@@ -8,11 +8,8 @@ import json
 import requests
 import sys
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit("Usage: {} <employee_id>".format(sys.argv[0]))
 
-    employee_id = sys.argv[1]
+def fetch_employee_data(employee_id=None):
     all_employee_data = {}
 
     # Get all users
@@ -42,6 +39,16 @@ if __name__ == "__main__":
 
         all_employee_data[user_id] = employee_tasks
 
+    return all_employee_data
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        employee_id = sys.argv[1]
+        employee_data = fetch_employee_data(employee_id)
+    else:
+        employee_data = fetch_employee_data()
+
     # Export data to JSON
     with open('todo_all_employees.json', 'w') as json_file:
-        json.dump(all_employee_data, json_file, indent=4)
+        json.dump(employee_data, json_file, indent=4)
