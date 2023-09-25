@@ -28,11 +28,10 @@ if __name__ == "__main__":
     total_tasks = len(tasks_data)
     completed_tasks = [task for task in tasks_data if task.get('completed')]
 
-    # Print the results as required
+    # Print the results as required with one tab space
     print("Employee {} is done with tasks({}/{}):".format(
         employee_name, len(completed_tasks), total_tasks))
 
     for task in completed_tasks:
-        # Replace tabs with spaces for indentation
-        task_title = task.get('title').replace('\t', ' ')
-        print("\t{}".format(task_title))
+        formatted_task = task.get('title')
+        print("\t{}".format(formatted_task))
