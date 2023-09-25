@@ -38,20 +38,13 @@ if __name__ == "__main__":
 
     # Create and write to the CSV file
     with open(csv_file_name, mode='w', newline='') as csv_file:
-        fieldnames = [
-                "USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer = csv.writer(csv_file, quoting=csv.QUOTE_MINIMAL)
 
-        # Write CSV header
-        writer.writeheader()
-
-        # Write task data to CSV
+        # Write task data to CSV with double quotes
         for task in tasks_data:
-            writer.writerow({
-                "USER_ID": user_id,
-                "USERNAME": username,
-                "TASK_COMPLETED_STATUS": str(task["completed"]),
-                "TASK_TITLE": task["title"]
-            })
+            writer.writerow(['"{}"'.format(user_id), '"{}"'
+                            .format(username), '"{}"'.format(str(
+                                task["completed"])), '"{}"'
+                            .format(task["title"])])
 
     print("Data exported to {}".format(csv_file_name))
