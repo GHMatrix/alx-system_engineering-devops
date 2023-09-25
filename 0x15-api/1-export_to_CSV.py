@@ -17,14 +17,20 @@ if __name__ == "__main__":
     # Get user info
     user_info = requests.get(
         'https://jsonplaceholder.typicode.com/users/{}'.format(employee_id))
+    if user_info.status_code != 200:
+        sys.exit("User not found")
+
     user_data = user_info.json()
-    user_id = user_data.get('id')  # Use 'id' instead of 'username'
-    username = user_data.get('username')  # Use 'username' instead of 'name'
+    user_id = user_data.get('id')
+    username = user_data.get('username')
 
     # Get user's tasks
     user_tasks = requests.get(
         'https://jsonplaceholder.typicode.com/todos?userId={}'
         .format(employee_id))
+    if user_tasks.status_code != 200:
+        sys.exit("User's tasks not found")
+
     tasks_data = user_tasks.json()
 
     # Prepare CSV file name based on USER_ID
