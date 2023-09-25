@@ -21,20 +21,17 @@ if __name__ == "__main__":
 
     # Get user's tasks
     user_tasks = requests.get(
-        'https://jsonplaceholder.typicode.com/todos?userId={}'
-        .format(employee_id))
+        'https://jsonplaceholder.typicode.com/todos?userId={}'.format(employee_id))
     tasks_data = user_tasks.json()
 
     total_tasks = len(tasks_data)
     completed_tasks = [task for task in tasks_data if task.get('completed')]
 
     # Print the results as required
-    print("Employee Name: OK")
-    print("To Do Count: {}/{}".format(len(completed_tasks), total_tasks))
-    print("First line formatting: OK")
-
     print("Employee {} is done with tasks({}/{}):".format(
         employee_name, len(completed_tasks), total_tasks))
-
+    
     for task in completed_tasks:
-        print("\t{}".format(task.get('title')))
+        # Replace tabs with spaces for indentation
+        task_title = task.get('title').replace('\t', ' ')
+        print("\t{}".format(task_title))
