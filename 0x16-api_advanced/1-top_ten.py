@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+""" function querrying Reddit API and printing titles
+of first 10 hot posts.
+"""
 
 import requests
 
