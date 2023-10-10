@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+Recursive function querrying Reddit API and returning
+list containing titles of hot articles.
+"""
 
 import requests
 
