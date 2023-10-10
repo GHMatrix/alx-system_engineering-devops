@@ -1,26 +1,22 @@
 #!/usr/bin/python3
-"""
-Recursive function querrying Reddit API, parsing
-the title of articles.
-"""
 
 import requests
 
 
 def count_words(subreddit, word_list, hot_list=[], after=None):
     """
-    Recursively query the Reddit API, parse titles, and
-    print a sorted count of given keywords.
+    Recursively query the Reddit API, parse titles,
+    and print a sorted count of given keywords.
 
     :param subreddit: The name of the subreddit to query.
     :type subreddit: str
     :param word_list: A list of keywords to count.
     :type word_list: list
-    :param hot_list: A list to accumulate the
-    titles of hot articles (used in recursion).
+    :param hot_list: A list to accumulate the titles of
+    hot articles (used in recursion).
     :type hot_list: list
-    :param after: A parameter used to paginate
-    through results (used in recursion).
+    :param after: A parameter used to paginate through
+    results (used in recursion).
     :type after: str
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100"
@@ -71,11 +67,11 @@ def count_and_print_keywords(word_list, hot_list):
         for keyword in word_list:
             # Check if the keyword is surrounded by non-alphanumeric characters
             keyword_count = title.count(f' {keyword} ')
-            keyword_counts[keyword] =
-            keyword_counts.get(keyword, 0) + keyword_count
+            keyword_counts[keyword] = keyword_counts.get(
+                    keyword, 0) + keyword_count
 
-    sorted_keywords = sorted(keyword_counts.items(),
-                             key=lambda x: (-x[1], x[0]))
+    sorted_keywords = sorted(
+            keyword_counts.items(), key=lambda x: (-x[1], x[0]))
 
     # Print the sorted keyword counts
     for keyword, count in sorted_keywords:
@@ -86,8 +82,8 @@ if __name__ == "__main__":
     import sys
     if len(sys.argv) < 3:
         print("Usage: {} <subreddit> <list of keywords>".format(sys.argv[0]))
-        print("Ex: {} programming 'python java javascript'".format(
-            sys.argv[0]))
+        print("Ex: {} programming 'python java javascript'"
+              .format(sys.argv[0]))
     else:
         subreddit = sys.argv[1]
         word_list = [x.lower() for x in sys.argv[2].split()]
