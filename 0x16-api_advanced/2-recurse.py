@@ -63,6 +63,7 @@ if __name__ == "__main__":
         subreddit = sys.argv[1]
         result = recurse(subreddit)
         if result is not None:
-            print(len(result))
+            for title in result:
+                print(title)
         else:
             print("None")
