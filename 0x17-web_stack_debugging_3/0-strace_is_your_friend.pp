@@ -1,4 +1,4 @@
-# Puppet manifest to fix Apache 500 errori
+# Puppet manifest to fix Apache 500 error
 
 class apache_fix {
   # Ensuring  correct file exists
@@ -7,9 +7,7 @@ class apache_fix {
     notify => Exec['modify_wp_settings'],
   }
 
-  # Replacing "phpp" with "php" in wp-settings.php
   exec { 'fix-wordpress':
   command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
   path    => '/usr/local/bin/:/bin/'
-  }
 }
