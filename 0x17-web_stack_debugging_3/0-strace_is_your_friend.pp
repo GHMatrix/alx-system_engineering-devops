@@ -1,0 +1,24 @@
+# Puppet manifest to fix Apache 500 error
+class apache_fix {
+  # Ensuring  correct file exists
+  file { '/var/www/html/wp-settings.php':
+    ensure => file,
+    notify => Exec['modify_wp_settings'],
+  }
+
+  # Replacing "phpp" with "php" in wp-settings.php
+  exec { 'modify_wp_settings':
+    command => 'sed -i "s/phpp/php/g" /var/www/html/wp-settings.php',
+    path    => '/bin/:/sbin/:/usr/bin/:/usr/sbin/',
+    require => File['/var/www/html/wp-settings.php'],
+  }
+
+  # Ensuring Apache is running with right config
+  service { 'apache2':
+    ensure => 'running',
+    enable => true,
+    require => Exec['modify_wp_settings'],
+  }
+}
+
+include apache_fix
